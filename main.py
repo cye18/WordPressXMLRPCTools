@@ -246,11 +246,10 @@ def main():
     # 3. 开始同步
     # 读取_posts目录中的md文件列表
     md_list = get_md_list(os.path.join(os.getcwd(), "_posts"))
-    md_list = [os.path.basename(md) for md in md_list]
 
     for md in md_list:
         # 计算md文件的sha1值，并与md_sha1_dic做对比
-        sha1_key =  md
+        sha1_key =  os.path.basename(md)
         sha1_value = get_sha1(md)
         # 如果sha1与md_sha1_dic中记录的相同，则打印：XX文件无需同步;
         if((sha1_key in md_sha1_dic.keys()) and (sha1_value == md_sha1_dic[sha1_key])):
@@ -279,7 +278,8 @@ def main():
 
     # 如果_posts中的markdown被删除，则删除对应的post
     for md in md_sha1_dic.keys():
-        if md not in md_list:
+        md_list_basename = [os.path.basename(md) for md in md_list]
+        if md not in md_list_basename:
             print(f'Deleting post {md}')
             link = md.split(".")[0]
             id = link_id_dic["https://"+domain_name+"/p/"+link+"/"]
