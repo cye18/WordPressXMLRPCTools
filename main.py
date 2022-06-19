@@ -280,6 +280,8 @@ def main():
 
     # 如果_posts中的markdown被删除，则删除对应的post
     for md in md_sha1_dic.keys():
+        if md == 'update_time':
+            continue
         md_list_basename = [os.path.basename(md) for md in md_list]
         if md not in md_list_basename:
             print(f'Deleting post {md}')
